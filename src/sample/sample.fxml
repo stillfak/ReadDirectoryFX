@@ -18,10 +18,10 @@
    <children>
       <Pane prefHeight="283.0" prefWidth="462.0" style="-fx-background-color: #f0f0f0; -fx-border-radius: 20px;">
          <children>
-            <TextField layoutX="149.0" layoutY="87.0" promptText="search" style="-fx-background-color: #fafafa; -fx-border-radius: 10px;" />
+            <TextField fx:id="input" layoutX="149.0" layoutY="87.0" promptText="search" style="-fx-background-color: #fafafa; -fx-border-radius: 10px;" />
             <Button fx:id="open" layoutX="149.0" layoutY="135.0" mnemonicParsing="false" style="-fx-border-color: #81ecec; -fx-border-radius: 5px;" text="open" />
             <Button fx:id="search" layoutX="243.0" layoutY="135.0" mnemonicParsing="false" style="-fx-border-color: #81ecec; -fx-border-radius: 5px;" text="search" />
-            <Label layoutX="203.0" layoutY="31.0" />
+            <Label fx:id="path" layoutX="139.0" layoutY="30.0" prefHeight="18.0" prefWidth="173.0" />
          </children>
       </Pane>
    </children>
