@@ -38,6 +38,22 @@ public class Controller {
 //            System.out.println(file1[0].getPath());
             path.setText(file1[0].getPath());
         });
+        search.setOnAction(event -> {
+            searchDirectory(file1[0],String.valueOf(input.getCharacters()));
+        });
+    }
+    private static void searchDirectory(File pathDirectory, String searchMsg) {
+        File[] files = pathDirectory.listFiles();
+        assert files != null;
+
+        for (File file : files) {
+
+            if (file.isFile() && file.getName().matches(".*\\.html$")) {
+                new searchInFiles(file, searchMsg).start();
+            } else if (file.isDirectory()) {
+                searchDirectory(file, searchMsg);
+            }
+        }
     }
 }
 
