@@ -2,13 +2,17 @@ package sample;
 
 import java.io.*;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class searchInFiles extends Thread{
+public class searchInFiles extends Thread {
     private File fileForSearch;
     private String strSearch;
-    private static BufferedWriter fileresult;
+
+    private static ArrayList<searchInFiles> searchInFiles;
+    private static volatile BufferedWriter fileResult;
+    private static int i = 0;
 
     public searchInFiles(File fileForSearch, String strSearch) {
         this.fileForSearch = fileForSearch;
@@ -20,27 +24,64 @@ public class searchInFiles extends Thread{
         String str;
         Pattern searchStr = Pattern.compile(strSearch);
 
+
         Matcher mSearchStr;
         try (BufferedReader inFile = new BufferedReader(new FileReader(fileForSearch))) {
 
-            fileresult = new BufferedWriter(new FileWriter("result.txt"));
 
-            for (int i = 1;(str = inFile.readLine()) != null;i++) {
+            for (int i = 1; (str = inFile.readLine()) != null; i++) {
                 mSearchStr = searchStr.matcher(str);
                 if (mSearchStr.find()) {
-                    write(fileForSearch.getPath() + ": " + mSearchStr.group() + "; line: "+ i);
+                    write(fileForSearch.getPath() + ": " + mSearchStr.group() + "; line: " + i);
                 }
             }
-
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+    }
+
+    public static void starter(File pathDirectory, String searchMsg, String type) throws IOException, InterruptedException {
+        fileResult = new BufferedWriter(new FileWriter(new File("result.txt")));
+        searchInFiles = new ArrayList<>();
+
+        searchDirectory(pathDirectory, searchMsg, type);
+
+        aliveAndJoin(searchInFiles);
+        fileResult.close();
     }
 
     private synchronized void write(String str) throws IOException {
-        fileresult.write(str+"\n");
+        fileResult.write(str + "\n");
+    }
+
+    public static synchronized void  searchDirectory(File pathDirectory, String searchMsg, String type) throws NullPointerException, IOException, IndexOutOfBoundsException{
+        File[] files = pathDirectory.listFiles();
+        assert files != null;
+
+        for (int j = 0;j < files.length; j++) {
+
+            if (files[j].isFile() && files[j].getName().matches(".*\\." + type + "$")) {
+                searchInFiles.add(new searchInFiles(files[j], searchMsg));
+
+                searchInFiles.get(i).start();
+                i++;
+            } else if (files[j].isDirectory()) {
+
+                searchDirectory(files[j], searchMsg,type);
+            }
+        }
+
+    }
+
+    private static void aliveAndJoin(ArrayList<searchInFiles> searchInFiles) throws InterruptedException {
+        for (int i = 0; i < searchInFiles.size(); i++) {
+            if (searchInFiles.get(i).isAlive()) {
+                searchInFiles.get(i).join();
+            }
+        }
     }
 
 }
