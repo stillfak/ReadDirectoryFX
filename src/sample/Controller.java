@@ -1,6 +1,7 @@
 package sample;
 
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -11,7 +12,13 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Класс отслеживает действия пользователя с графическим интерфейсом
+ *
+ * @author Gavrikov V 15it18
+ */
 public class Controller {
+    private static File startDirectory;
     @FXML
     private Label path;
 
@@ -31,25 +38,18 @@ public class Controller {
     private Label statusReady;
 
 
-
-
     @FXML
     void initialize() {
-
-        File[] file1 = new File[1];
         open.setOnAction(event -> {
             DirectoryChooser directory = new DirectoryChooser();
             directory.setTitle("Select directory for open");
-            file1[0] = new File(String.valueOf(directory.showDialog(new Stage())));
-            path.setText(file1[0].getPath());
-
+            startDirectory = new File(String.valueOf(directory.showDialog(new Stage())));
+            path.setText(startDirectory.getPath());
         });
-        search.setOnAction(event -> {
+        search.setOnAction((ActionEvent event) -> {
             try {
-                searchInFiles.starter(file1[0],String.valueOf(input.getCharacters()),String.valueOf(type.getCharacters()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
+                SearchInFiles.starter(startDirectory, String.valueOf(input.getCharacters()), String.valueOf(type.getCharacters()));
+            } catch (IOException | InterruptedException | IndexOutOfBoundsException | NullPointerException e) {
                 e.printStackTrace();
             }
             statusReady.setText("успешно");
