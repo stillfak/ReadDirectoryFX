@@ -9,8 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * Класс отслеживает действия пользователя с графическим интерфейсом
@@ -18,6 +17,7 @@ import java.io.IOException;
  * @author Gavrikov V 15it18
  */
 public class Controller {
+    private static final String CHECK_FILE = "result.txt";
     private static File startDirectory;
     @FXML
     private Label path;
@@ -39,20 +39,33 @@ public class Controller {
 
 
     @FXML
-    void initialize() {
+    void initialize() throws NullPointerException{
         open.setOnAction(event -> {
             DirectoryChooser directory = new DirectoryChooser();
             directory.setTitle("Select directory for open");
             startDirectory = new File(String.valueOf(directory.showDialog(new Stage())));
             path.setText(startDirectory.getPath());
+            if (startDirectory.getPath() != null){
+                statusReady.setText("");
+
+            }
         });
         search.setOnAction((ActionEvent event) -> {
             try {
                 SearchInFiles.starter(startDirectory, String.valueOf(input.getCharacters()), String.valueOf(type.getCharacters()));
             } catch (IOException | InterruptedException | IndexOutOfBoundsException | NullPointerException e) {
+//                e.printStackTrace();
+            }
+            try (BufferedReader bf = new BufferedReader(new FileReader(new File(CHECK_FILE)))){
+
+                if (bf.readLine()==null) statusReady.setText("ничего не найдено");
+
+                else statusReady.setText("успешно");
+
+            } catch (IOException e) {
                 e.printStackTrace();
             }
-            statusReady.setText("успешно");
+
         });
     }
 
