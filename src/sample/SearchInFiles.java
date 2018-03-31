@@ -6,7 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Класс осуществляет переход по ветки файловой системы,
+ * В классе реализованно: переход по ветки файловой системы,
  * Ищет файл определенного типа(type введенного пользователем),
  * если файл найден создается экземпляр этого класса,
  * для поиска запроса пользователя в этом файле
@@ -20,12 +20,12 @@ public class SearchInFiles extends Thread {
 
     private static ArrayList<SearchInFiles> searchInFiles;
     private static volatile BufferedWriter fileResult;
-    private static int i = 0;
 
     private SearchInFiles(File fileForSearch, String strSearch) {
         this.fileForSearch = fileForSearch;
         this.strSearch = strSearch;
     }
+
 
     @Override
     public void run() {
@@ -63,7 +63,9 @@ public class SearchInFiles extends Thread {
      * @throws IOException input output
      * @throws InterruptedException
      */
-    static void starter(File pathDirectory, String searchMsg, String type) throws IOException, InterruptedException {
+    static void starter(File pathDirectory, String searchMsg, String type) throws IOException, InterruptedException, NullPointerException {
+
+    try {
         fileResult = new BufferedWriter(new FileWriter(new File("result.txt")));
         searchInFiles = new ArrayList<>();
 
@@ -72,6 +74,7 @@ public class SearchInFiles extends Thread {
         aliveAndJoin(searchInFiles);
 
         fileResult.close();
+    }catch (NullPointerException e) {}
     }
 
     /**
@@ -82,6 +85,7 @@ public class SearchInFiles extends Thread {
      */
     private synchronized void write(String str) throws IOException {
         fileResult.write(str + "\n");
+
     }
 
     /**
@@ -93,24 +97,23 @@ public class SearchInFiles extends Thread {
      * @param searchMsg запрос пользователя
      * @param type тип файлов в которых нужно искать(расширение файла без точки)
      */
-    private static void searchFiles(File pathDirectory, String searchMsg, String type) {
+    private static void searchFiles(File pathDirectory, String searchMsg, String type)  {
         File[] files = pathDirectory.listFiles();
         assert files != null;
         try {
             for (File file : files) {
-
+//                assert file != null;
                 if (file.isFile() && file.getName().matches(".*\\." + type + "$")) {
                     searchInFiles.add(new SearchInFiles(file, searchMsg));
-
-                    searchInFiles.get(i).start();
-                    i++;
+//                    assert searchInFiles.get(searchInFiles.size()-1) != null;
+                    searchInFiles.get(searchInFiles.size()-1).start();
                 } else if (file.isDirectory()) {
 
                     searchFiles(file, searchMsg, type);
                 }
             }
         }catch (NullPointerException | IndexOutOfBoundsException e){
-            e.printStackTrace();
+//            e.printStackTrace();
         }
 
     }
