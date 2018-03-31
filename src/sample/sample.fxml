@@ -16,14 +16,14 @@
       <RowConstraints />
    </rowConstraints>
    <children>
-      <Pane prefHeight="283.0" prefWidth="462.0" style="-fx-background-color: #f0f0f0; -fx-border-radius: 20px;">
+      <Pane prefHeight="305.0" prefWidth="450.0" style="-fx-background-color: #f0f0f0; -fx-border-radius: 20px;">
          <children>
-            <TextField fx:id="input" layoutX="149.0" layoutY="87.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" promptText="search" style="-fx-background-color: #fafafa; -fx-border-radius: 10px;" />
-            <TextField fx:id="type" layoutX="149.0" layoutY="129.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" promptText="type" style="-fx-background-color: #fafafa; -fx-border-radius: 10px;" />
-            <Button fx:id="open" layoutX="139.0" layoutY="169.0" mnemonicParsing="false" style="-fx-border-color: #81ecec; -fx-border-radius: 5px;" text="open" />
-            <Button fx:id="search" layoutX="254.0" layoutY="169.0" mnemonicParsing="false" style="-fx-border-color: #81ecec; -fx-border-radius: 5px;" text="search" />
-            <Label fx:id="path" layoutX="139.0" layoutY="30.0" prefHeight="18.0" prefWidth="173.0" />
-            <Label fx:id="statusReady" layoutX="170.0" layoutY="215.0" prefHeight="18.0" prefWidth="108.0" />
+            <TextField fx:id="input" layoutX="150.0" layoutY="87.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" promptText="search" style="-fx-background-color: #fafafa; -fx-border-radius: 10px;" />
+            <TextField fx:id="type" layoutX="150.0" layoutY="129.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" promptText="type" style="-fx-background-color: #fafafa; -fx-border-radius: 10px;" />
+            <Button fx:id="open" layoutX="135.0" layoutY="169.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="65.0" style="-fx-border-color: #81ecec; -fx-border-radius: 5px; -fx-pref-width: 65px;" text="open" />
+            <Button fx:id="search" layoutX="250.0" layoutY="169.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="65.0" style="-fx-border-color: #81ecec; -fx-border-radius: 5px;" text="search" />
+            <Label fx:id="path" alignment="CENTER" layoutX="1.0" layoutY="30.0" prefHeight="18.0" prefWidth="450.0" />
+            <Label fx:id="statusReady" alignment="CENTER" layoutX="1.0" layoutY="214.0" prefHeight="18.0" prefWidth="450.0" style="-fx-text-alignment: center;" />
 
          </children>
       </Pane>
